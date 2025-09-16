@@ -130,27 +130,46 @@ export default function Game() {
 }
 
 // Helper function to calculate the winner with the parameter of the squares
-function calculateWinner(squares) {
-  // All of the possible trajectories that a player can win (vertically, horizontally, diagonally) 
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-
-  // For each line of the possible win trajectories, unpack the 3 indices associated with that line
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-
-    // If the value at all 3 indices are the same, then return the winner
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+// TODO: Make the function more generalizable instead of hardcoding winning lines
+/*
+  - squares is an array -> how to transform it back to a matrix?
+  - first, we can take the square root of the array's length to get the length of the row and column: len = Math.sqrt(squares.length)
+  - create a helper function to turn an array into a square matrix
+    function arrayToMatrix(squares, columns) {
+      const matrix = [];
+      for (i = 0; i < squares.length; i += columns) {
+        matrix.push(squares.slice(i, i + columns))
+      }
+      return matrix
     }
+  - create a helper function to check if all elements of an array are the same
+  - create 3 helper functions to check the winning lines in 3 directions
+*/
+function calculateWinner(squares) {
+  const columns = Math.sqrt(squares.length);
+  if (!Number.isInteger(columns)) throw new Error("Board must be square");
+
+  const matrix = [];
+  for (let i = 0; i < squares.length; i += columns) {
+    matrix.push(squares.slice(i, i + columns));
   }
+
+  const areAllElementsSame = (arr) => arr[0] && arr.every(el => el === arr[0]);
+
+  // Horizontal
+  for (let r = 0; r < columns; r++) if (areAllElementsSame(matrix[r])) return matrix[r][0];
+
+  // Vertical
+  for (let c = 0; c < columns; c++) {
+    const col = matrix.map(row => row[c]);
+    if (areAllElementsSame(col)) return col[0];
+  }
+
+  // Diagonals
+  const diag1 = matrix.map((row, i) => row[i]);
+  const diag2 = matrix.map((row, i) => row[columns - 1 - i]);
+  if (areAllElementsSame(diag1)) return diag1[0];
+  if (areAllElementsSame(diag2)) return diag2[0];
+
   return null;
 }
