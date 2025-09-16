@@ -1,12 +1,44 @@
-# React + Vite
+# Tic Tac Toe Game (React + JavaScript)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## How to run
+1. Clone this repo
+```
+git clone https://github.com/thuthancs/pair-programming-sessions
+```
+2. Run the app
+```
+cd tic-tac-toe
+npm install
+npm run dev
+```
 
-Currently, two official plugins are available:
+## Interview Structure
+### Overview
+- **Total Duration:** 1.5 hours
+- **Tech Stack:** JavaScript, React
+- **Problem Statement:** You are given a standard 3x3 Tic Tac Toe game written in JavaScript and the React library. However, a 3x3 TTT game played by 2 humans is pretty boring. In today’s interview, we will work on two problems: 1) design an algorithm for a computer to play against a human, and 2) generalize the game rules to work on a larger grid.
+- **What is provided**:
+    - A program that lets two humans play a game of Tic Tac Toe on a 3x3 grid.
+    - The program should let the players take turns to input their moves.
+    - The program should report the outcome of the game.
+- **Logistics:**
+    - A GitHub repo will be sent beforehand: https://github.com/thuthancs/pair-programming-sessions
+    - At the beginning of the interview, the interviewee clones the repo
+    - All the changes will be pushed to the repo
+    - We will mirror our screens for better coordination
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Interview Tasks
+- **Interviewer’s Tasks:**
+    - When the interviewee gets stuck on a syntax, jump in and help them with that. The most important thing is their thinking process, and they should not spend too much time worrying about syntax.
+    - Ask guiding questions or provide scaffolding code for a specific function(s) when the interviewee gets and is able to describe the conceptual idea, but struggles to implement it in code.
+    - Keep an eye on the time!
+    
+- **Tasks to be done during your interview**:
+    | Task | Duration (minutes) | Detail |
+    | --- | --- | --- |
+    | Explain the codebase | 10 | Explain the key functions, what the code does and answer some questions about React |
+    | Improve the code | 20 | Currently, the code is hardcoded with a 3x3 grid setup. How can you make the code more generalizable, meaning it takes the user input and generate a grid based on the size of choice? |
+    | Add new feature to the code | 45 | Add an algorithm for a computer player to your game (human vs. AI) on the 3x3 grid. The requirement is that your algorithm has to always win or reach a draw. |
+    | Discussion | 15 | What do you think about the current code? What went well? What could be improved after this interview? |
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Credit: https://www.recurse.com/pairing-tasks
