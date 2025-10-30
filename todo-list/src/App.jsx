@@ -8,44 +8,53 @@ function App() {
 
   // Whenever there is a change in the input of todo item, change the item based on the input
   function handleChange(e) {
-    setTodoItem({
+    const newTodoItem = {
       id: crypto.randomUUID(),
       name: e.target.value,
       done: false
-    })
+    }
+    setTodoItem(newTodoItem)
     console.log(todoItem)
   }
 
-  function handleComplete(e) {
-    if (e.target.value == "checked") {
-      setTodoItem({
-        ...todoItem,
-        done: true
-      })
-    }
+  // Update the status of the todo Item when the check box is ticked
+  function handleComplete(id) {
+    const updatedList = todoList.map(item => {
+      return item.id === id ? {...item, done: !item.done} : item
+    })
+    setTodoList(updatedList)
   }
   
   // Update the todo list by adding the recently added item to the top of the array
   const handleSubmit = () => {
-    todoList.unshift(todoItem)
-    setTodoList(todoList)
-    
-    console.log(todoList)
+    const newTodoList = [todoItem, ...todoList]
+    setTodoList(newTodoList)
+    setTodoItem({}) 
+    console.log(newTodoList)
   }
 
 
   return (
     <>
       <h1>Todo List</h1>
-      <div>
-        <input value={todoItem.name} onChange={handleChange}></input>
+      <div className="todo-input-container">
+        <input 
+          className="todo-input"
+          value={todoItem.name || ''} 
+          onChange={handleChange}
+        />
         <button onClick={handleSubmit}>Submit</button>
       </div>
-      <div>
-        {todoList.map(todoItem => (
-          <div onChange={handleComplete} key={todoItem.id}>
-            <input type="checkbox"></input>
-            {todoItem.name}
+      <div className="todo-list">
+        {todoList.map(item => (
+          <div key={item.id} className={`todo-item ${item.done ? 'completed' : ''}`}>
+            <input 
+              type="checkbox" 
+              className="todo-checkbox"
+              checked={item.done} 
+              onChange={() => handleComplete(item.id)}
+            />
+            <span>{item.name}</span>
           </div>
         ))}
       </div>
