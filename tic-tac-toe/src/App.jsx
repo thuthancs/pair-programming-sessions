@@ -13,86 +13,55 @@ function Square({ value, onSquareClick }) {
 }
 
 // The board component that contains the Square component 
-function Board({ xIsNext, squares, onPlay }) {
+function Board({ xIsNext, squares, onPlay, boardSize }) {
 
-  // Define the function to trigger a square when it is clicked
   function handleClick(i) {
-    // Calculate the winner of the current state or check if the current square is already ticked
-    if (calculateWinner(squares) || squares[i]) {
-      return;
-    }
-
-    /* 
-    Create a shallow copy of the original board
-    We make a shallow copy instead of modifying the board directly 
-    because React state must be updated immutably for reliable re-renders.
-    */
+    if (calculateWinner(squares) || squares[i]) return;
     const nextSquares = squares.slice();
-
-    // If the next turn is X, then change the value of the square to X, else change it to O
-    if (xIsNext) {
-      nextSquares[i] = 'X';
-    } else {
-      nextSquares[i] = 'O';
-    }
-
-    // The next turn's state will be the modified board
+    nextSquares[i] = xIsNext ? 'X' : 'O';
     onPlay(nextSquares);
   }
 
-  // Calculate the winner and update the status until there is a winner
   const winner = calculateWinner(squares);
-  let status;
-  if (winner) {
-    status = 'Winner: ' + winner;
-  } else {
-    status = 'Next player: ' + (xIsNext ? 'X': 'O');
+  const status = winner ? `Winner: ${winner}` : `Next player: ${xIsNext ? 'X' : 'O'}`;
+
+  // Render rows dynamically
+  const rows = [];
+  for (let r = 0; r < boardSize; r++) {
+    const rowSquares = [];
+    for (let c = 0; c < boardSize; c++) {
+      const idx = r * boardSize + c;
+      rowSquares.push(
+        <Square key={idx} value={squares[idx]} onSquareClick={() => handleClick(idx)} />
+      );
+    }
+    rows.push(
+      <div key={r} className="board-row">
+        {rowSquares}
+      </div>
+    );
   }
 
   return (
-    // There are a total of 9 squares in the board and on top of the board is the status that shows the winner or the next player's turn
-    // The value of each square is defined as the value at that cell and the onSquareClick trigger is now updated to use the handleClick() function
     <>
       <div className="status">{status}</div>
-      <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
-      </div>
+      {rows}
     </>
   );
 }
 
-export default function Game() {
-  // History stores snapshots of the board. Start with one empty board of 9 nulls.
-  const [history, setHistory] = useState([Array(9).fill(null)]);
+export default function App() {
+  // Input for user-defined grid size
+  const [sizeInput, setSizeInput] = useState(3);   // controlled input
+  const [boardSize, setBoardSize] = useState(3);   // actual board size used in Game
 
-  // The initial move starts at 0
+  const [history, setHistory] = useState([Array(3 ** 2).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
 
-  // Alternate players: even moves = X, odd moves = O.
   const xIsNext = currentMove % 2 === 0;
-
-  // The current board state is defined as the history at the current move
   const currentSquares = history[currentMove];
 
-  // Define the function to handle the next state of the squares
   function handlePlay(nextSquares) {
-    /* The spread operator (...) unpacks all the elements of the sliced array
-    .slice(start, end) returns a shallow copy of a portion of the array.
-    Here it takes the elements from index 0 up to (but not including) currentMove + 1.
-    That means it keeps only the "past" history up to and including the current move.
-    */
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
@@ -102,26 +71,45 @@ export default function Game() {
     setCurrentMove(nextMove);
   }
 
-  // Build a list of buttons to jump to any past move.
-  const moves = history.map((squares, move) => {
-    let description;
-    if (move > 0) {
-      description = 'Go to move #' + move;
-    } else {
-      description = 'Go to game start';
-    }
-    return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
-      </li>
-    )
-  });
+  // Start a new game with the selected board size
+  function startNewGame() {
+    setBoardSize(sizeInput);
+    setHistory([Array(sizeInput ** 2).fill(null)]);
+    setCurrentMove(0);
+  }
+
+  const moves = history.map((squares, move) => (
+    <li key={move}>
+      <button onClick={() => jumpTo(move)}>
+        {move === 0 ? 'Go to game start' : `Go to move #${move}`}
+      </button>
+    </li>
+  ));
 
   return (
     <div className="game">
-      <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+      <div className="game-settings">
+        <label>
+          Grid size:
+          <input
+            type="number"
+            value={sizeInput}
+            min={2}
+            onChange={(e) => setSizeInput(parseInt(e.target.value))}
+          />
+        </label>
+        <button onClick={startNewGame}>Start Game</button>
       </div>
+
+      <div className="game-board">
+        <Board
+          xIsNext={xIsNext}
+          squares={currentSquares}
+          onPlay={handlePlay}
+          boardSize={boardSize}
+        />
+      </div>
+
       <div className="game-info">
         <ol>{moves}</ol>
       </div>
