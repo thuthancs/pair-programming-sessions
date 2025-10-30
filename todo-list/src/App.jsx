@@ -3,24 +3,21 @@ import './App.css';
 
 function App() {
   // Initialize the todo list which will be updated via the function setTodo
-  const [todo, setTodo] = useState([])
+  const [todoItem, setTodoItem] = useState("")
+  const [todoList, setTodoList] = useState([todoItem])
 
-  // Define the function to update the todo list
-  setTodo = () => {
-    const todoItem = {"name": input.value.trim(), "active": false}
-    todo.push(todoItem)
-    console.log(todo)
-  }
-
-  // Define the function to handle the change in an input
-  const handleChange = (val) => {
-    const [val, ...todo] = todo
-    console.log(todo)
+  // Whenever there is a change in the input of todo item, change the item based on the input
+  function handleChange(e) {
+    setTodoItem(e.target.value)
+    console.log(todoItem)
   }
   
-  // Call the setTodo function when user clicks submit
+  // Update the todo list
   const handleSubmit = () => {
-    setTodo(todo)
+    const [todoItem, ...todoList] = todoList
+    todoList.shift(todoItem)
+    setTodoList(todoList)
+    console.log(todoList)
   }
 
 
@@ -28,8 +25,11 @@ function App() {
     <>
       <h1>Todo List</h1>
       <div>
-        <input onChange="handleChange()"></input>
-        <button onClick="handleSubmit()"></button>
+        <input onChange={handleChange}></input>
+        <button onClick={handleSubmit}>Submit</button>
+      </div>
+      <div>
+        {todoList}
       </div>
     </>
   )
