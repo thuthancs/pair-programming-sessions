@@ -19,17 +19,6 @@ function App() {
     console.log(todoItem)
   }
 
-  function reorder(item, arr) {
-    let idxToMove = arr.indexOf(item)
-    if (idxToMove !== -1) {
-      // Remove the item and store it
-      let itemToMove = arr.splice(idxToMove, 1)[0];
-
-      // Add the item to the end of the array
-      arr.push(itemToMove);
-    }
-  }
-
   // Update the status of the todo Item when the check box is ticked
   function handleComplete(id) {
     // Create updated list with toggled done status
