@@ -18,13 +18,13 @@
 
 I can break this problem down into smaller subproblems that are more tractable:
 
-- [ ] Create a component that allows the user to enter their task name (input) and submit it
-  - [ ] A text area or an input element
-  - [ ] A button to submit the input
-    - [ ] A function to handle the submit (i.e., what is the action that should be taken when the users click the button) by pushing the item to the list
-- [ ] Create a component that displays a checkbox and the task name
-- [ ] Create a component that renders all the todo items on the main page with the most recently added item at the top and the checked items at the bottom
-  - [ ] Define a function to update the state of the todo list: 1) when a new task is created, it is inserted to the front of the list, and 2) when a task is marked as done, it is pushed down to the bottom of the list.
-- [ ] Create a component that shows how many tasks are done to the total number of tasks
+- [x] Create a component that allows the user to enter their task name (input) and submit it
+  - [x] A text area or an input element
+  - [x] A button to submit the input
+    - [x] A function to handle the submit (i.e., what is the action that should be taken when the users click the button) by pushing the item to the list
+- [x] Create a component that displays a checkbox and the task name
+- [x] Create a component that renders all the todo items on the main page with the most recently added item at the top and the checked items at the bottom
+  - [x] Define a function to update the state of the todo list: 1) when a new task is created, it is inserted to the front of the list, and 2) when a task is marked as done, it is pushed down to the bottom of the list.
+- [x] Create a component that shows how many tasks are done to the total number of tasks
 
 I will write everything inside the `App.jsx` file first and will refactor the code later.
