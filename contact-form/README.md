@@ -1,16 +1,19 @@
-# React + Vite
+# Task: Create a Contact Form
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Building forms is a common task in Front End. In this exercise, we will build a basic "Contact Us" form, commonly seen on marketing websites for visitors to ask questions or provide feedback.
 
-Currently, two official plugins are available:
+## Requirements
+The form should contain the following elements:
+- Name field.
+- Email field.
+- Message field. Since the message can be long, a `<textarea>` will be more suitable.
+- Submit button
+- Contains the text "Send".
+- Clicking on the submit button submits the form.
+- The form and submission should be implemented entirely in HTML. Do not use any JavaScript or framework-specific features for this question.
+- There is no need to do any client-side validation on the fields. Validation will be done on the server side.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Submission API
+Upon submission, POST the form data to https://questions.greatfrontend.com/api/questions/contact-form with the following fields in the request body: name, email, message.
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+If all the form fields are correctly filled up, you will see an alert containing a success message. Congratulations!
