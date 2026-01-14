@@ -1,0 +1,13 @@
+.section-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.section-header button {
+    background-color: white;
+    border: None;
+}
+
+.hidden {
+    display: none;
+}
