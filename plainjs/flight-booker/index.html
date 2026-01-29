@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booker</title>
+</head>
+<body>
+    <form>
+        <label for="select-trip">Type:
+            <select id="select-trip">
+                <option>One way</option>
+                <option>Round trip</option>
+            </select>
+        </label>
+        <label for="start-date-op">Start Date:
+            <input id="start-date-op" type="date" name="start-date" required/>
+        </label>
+        <label for="return-date-op">Return Date:
+            <input id="return-date-op" type="date" name="return-date"/>
+        </label>
+        <p id="one-way-message" style="display: none;">
+            You have booked a one-way flight on <span id="one-way-date"></span>
+        </p>
+        <p id="round-trip-message" style="display: none;">
+            You have booked a round-trip flight, departing on <span id="depart-date"></span> and returning on <span id="return-date"></span>
+        </p>
+        <button type="submit" id="submit-btn">Submit</button>
+    </form>
+    <script src="index.js"></script>
+</body>
+</html>
