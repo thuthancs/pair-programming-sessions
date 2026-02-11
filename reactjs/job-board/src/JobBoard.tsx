@@ -1,17 +1,8 @@
 import { useEffect, useState } from 'react';
-import { fetchJobDetail } from './api';
+import { fetchJobDetail, fetchJobList, type Job } from './api';
 import { convertUnixTime } from './util';
 
-const JOB_STORIES_URL = "https://hacker-news.firebaseio.com/v0/jobstories.json"
 const JOBS_PER_PAGE = 6;
-
-type Job = {
-    by: string;
-    id: number;
-    title: string;
-    time: number;
-    url: string;
-};
 
 export default function JobBoard() {
     const [jobIDs, setJobIDs] = useState<number[]>([]);
@@ -20,8 +11,7 @@ export default function JobBoard() {
 
     useEffect(() => {
         async function loadJobs() {
-            const response = await fetch(JOB_STORIES_URL);
-            const result = await response.json();
+            const result = await fetchJobList();
             setJobIDs(result);
         }
         loadJobs();
@@ -30,8 +20,8 @@ export default function JobBoard() {
     useEffect(() => {
         async function loadJobDetail() {
             const idsToLoad = jobIDs.slice(0, displayedJobs);
-            const details = await Promise.all(
-                idsToLoad.map(id => fetchJobDetail(`https://hacker-news.firebaseio.com/v0/item/${id}.json`))
+            const details: Job[] = await Promise.all(
+                idsToLoad.map(id => fetchJobDetail(id))
             );
             setJobList(details);
         }
